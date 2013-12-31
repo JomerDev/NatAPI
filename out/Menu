@@ -1,3 +1,5 @@
+local os.loadAPI("Button")
+
 local function findArg(args, sa)
 	for i,v in pairs(args) do
 		if sa == "m=" and tostring(type(v)) == "table" then
@@ -11,28 +13,44 @@ local function findArg(args, sa)
 	return nil
 end
 
--- Needs a table for Buttons which should be created and handled inside of the menu
--- 
---
-
 New = function(self,...) -- Creates and returns a new instance of "menu"
 	local new = {}
-	local new.buttons = {}
+	local new.buttons = {}	
 	setmetatable(new, {__index = self})
 	new.name = findArg(arg, "n=") or "Menu"
 	new.x = tonumber(findArg(arg, "x=")) or 5
 	new.y = tonumber(findArg(arg, "y=")) or 5
 	new.width = tonumber(findArg(arg, "w=")) or 10
 	new.height = tonumber(findArg(arg, "h=")) or 5
-	new.color_BG_ON = tonumber(findArg(arg, "cbg1=")) or colors.green
-	new.color_BG_OFF = tonumber(findArg(arg, "cbg2=")) or colors.red
-	new.color_BG_DIS = tonumber(findArg(arg, "cbg3=")) or colors.lightGray
+	new.direction = findArg(arg, "d=") or "down"
+	new.color_BG_ON = tonumber(findArg(arg, "cbg1=")) or colors.lightGray
+	new.color_BG_DIS = tonumber(findArg(arg, "cbg3=")) or colors.gray
 	new.color_TXT_ON = tonumber(findArg(arg, "ctx1=")) or colors.black
-	new.color_TXT_OFF = tonumber(findArg(arg, "ctx2=")) or colors.black
 	new.color_TXT_DIS = tonumber(findArg(arg, "ctx3=")) or colors.white
-	new.state = findArg(arg, "s=") or  "Dis" or findArg(arg, "f=") and "On"
-	new.func = findArg(arg, "f=") or function() return end
+	new.enabled = findArg(arg, "e=") or true
+	new.state = false
 	new.mon = findArg(arg, "m=") or term
+	new.buttons.width = new.width
 	
 	return new
+end
+
+addPoint = function(self, name, func)
+	--bla
+end
+
+local out = function(self) 
+	if not self.state then
+		for i=1,#self.buttons do
+			--bla
+		end
+	end
+end
+
+wasPressed = function(self,x,y) -- Checks if the menu was pressed
+	if x >= self.x and x <= (self.x + self.width ) and y >= self.y and y <= (self.y + self.height) then
+		return true
+	else
+		return false
+	end
 end
