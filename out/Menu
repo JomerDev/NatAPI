@@ -1,0 +1,38 @@
+local function findArg(args, sa)
+	for i,v in pairs(args) do
+		if sa == "m=" and tostring(type(v)) == "table" then
+			return v
+		end
+		local x,y = string.find(tostring(v),tostring(sa))
+		if x and y then
+			return string.sub(tostring(v),y+1)
+		end
+	end
+	return nil
+end
+
+-- Needs a table for Buttons which should be created and handled inside of the menu
+-- 
+--
+
+New = function(self,...) -- Creates and returns a new instance of "menu"
+	local new = {}
+	local new.buttons = {}
+	setmetatable(new, {__index = self})
+	new.name = findArg(arg, "n=") or "Menu"
+	new.x = tonumber(findArg(arg, "x=")) or 5
+	new.y = tonumber(findArg(arg, "y=")) or 5
+	new.width = tonumber(findArg(arg, "w=")) or 10
+	new.height = tonumber(findArg(arg, "h=")) or 5
+	new.color_BG_ON = tonumber(findArg(arg, "cbg1=")) or colors.green
+	new.color_BG_OFF = tonumber(findArg(arg, "cbg2=")) or colors.red
+	new.color_BG_DIS = tonumber(findArg(arg, "cbg3=")) or colors.lightGray
+	new.color_TXT_ON = tonumber(findArg(arg, "ctx1=")) or colors.black
+	new.color_TXT_OFF = tonumber(findArg(arg, "ctx2=")) or colors.black
+	new.color_TXT_DIS = tonumber(findArg(arg, "ctx3=")) or colors.white
+	new.state = findArg(arg, "s=") or  "Dis" or findArg(arg, "f=") and "On"
+	new.func = findArg(arg, "f=") or function() return end
+	new.mon = findArg(arg, "m=") or term
+	
+	return new
+end

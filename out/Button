@@ -1,0 +1,166 @@
+local function findArg(args, sa)
+	for i,v in pairs(args) do
+		if sa == "f=" and tostring(type(v)) == "function" then
+			return v
+		end
+		if sa == "m=" and tostring(type(v)) == "table" then
+			return v
+		end
+		local x,y = string.find(tostring(v),tostring(sa))
+		if x and y then
+			return string.sub(tostring(v),y+1)
+		end
+	end
+	return nil
+end
+
+New = function(self,...) -- Creates and returns a new instance of "button"
+	local new = {}
+	setmetatable(new, {__index = self})
+	new.name = findArg(arg, "n=") or "Button"
+	new.x = tonumber(findArg(arg, "x=")) or 5
+	new.y = tonumber(findArg(arg, "y=")) or 5
+	new.width = tonumber(findArg(arg, "w=")) or 10
+	new.height = tonumber(findArg(arg, "h=")) or 5
+	new.color_BG_ON = tonumber(findArg(arg, "cbg1=")) or colors.green
+	new.color_BG_OFF = tonumber(findArg(arg, "cbg2=")) or colors.red
+	new.color_BG_DIS = tonumber(findArg(arg, "cbg3=")) or colors.lightGray
+	new.color_TXT_ON = tonumber(findArg(arg, "ctx1=")) or colors.black
+	new.color_TXT_OFF = tonumber(findArg(arg, "ctx2=")) or colors.black
+	new.color_TXT_DIS = tonumber(findArg(arg, "ctx3=")) or colors.white
+	new.state = findArg(arg, "s=") or  "Dis" or findArg(arg, "f=") and "On"
+	new.func = findArg(arg, "f=") or function() return end
+	new.mon = findArg(arg, "m=") or term
+	
+	return new
+end
+
+setState = function(self,state) -- Sets the state of the button ("On","Off","Dis")
+	if tostring(state) == "On" then
+		self.state = "On"
+	elseif tostring(state) == "Off" then 
+		self.state = "Off" 
+	elseif tostring(state) == "Dis" then
+		self.state = "Dis"
+	end
+end
+
+getState = function(self) -- Returns the state of the button
+	return self.state
+end
+
+setColor = function(self,type,color) -- Sets the color, type must be either BG1,BG2,BG3,TXT1,TXT2,TXT3
+	if	tostring(type) == "BG1" then
+		self.color_BG_ON = color
+	elseif tostring(type) == "BG2" then
+		self.color_BG_OFF = color
+	elseif tostring(type) == "BG3" then
+		self.color_BG_DIS = color
+	elseif tostring(type) == "TXT1" then
+		self.color_TXT_ON = color
+	elseif tostring(type) == "TXT2" then
+		self.color_TXT_OFF = color
+	elseif tostring(type) == "TXT3" then
+		self.color_TXT_DIS = color
+	end
+end
+
+getColor = function(self,type) -- Returns the color specified by type
+	if	tostring(type) == "BG1" then
+		return self.color_BG_ON
+	elseif tostring(type) == "BG2" then
+		return self.color_BG_OFF
+	elseif tostring(type) == "BG3" then
+		return self.color_BG_DIS
+	elseif tostring(type) == "TXT1" then
+		return self.color_TXT_ON
+	elseif tostring(type) == "TXT2" then
+		return self.color_TXT_OFF
+	elseif tostring(type) == "TXT3" then
+		return self.color_TXT_DIS
+	else
+		return false
+	end
+end
+
+setX = function(self,x) -- Sets x
+	self.x = tonumber(x)
+end
+
+getX = function(self) -- Returns x
+	return self.x
+end
+
+setY = function(self,y) -- Sets y
+	self.y = tonumber(y)
+end
+
+getY = function(self) -- Returns y
+	return self.y
+end
+
+setPos = function(self,x,y) -- Sets x and y to new position
+	self.x = tonumber(x)
+	self.y = tonumber(y)
+end
+
+getPos = function(self) -- Returns x and y
+	return self.x, self.y
+end
+
+setWidth = function(self,width) -- Sets the width
+	self.width = tonumber(width)
+end
+
+getWidth = function(self) -- Returns the width
+	return self.width
+end
+
+setHeigth = function(self,height) -- Sets the height
+	self.heigth = tonumber(heigth)
+end
+
+getHeigth = function(self) -- Returns the height
+	return self.height
+end
+
+wasPressed = function(self,x,y) -- Checks if the button was pressed
+	if x >= self.x and x <= (self.x + self.width ) and y >= self.y and y <= (self.y + self.height) then
+		return true
+	else
+		return false
+	end
+end
+
+toggleState = function(self) -- Toggles the state of the button
+	if self.state == "On" then
+		self.state = "Off"
+	elseif self.state == "Off" then
+		self.state = "On"
+	elseif self.state == "Dis" then
+		return
+	end
+end
+
+show = function(self, mon) -- Writes the button out
+	if not mon then mon = self.mon else self.mon = mon end
+	if self.state == "On" then
+		mon.setTextColor(self.color_TXT_ON)
+		mon.setBackgroundColor(self.color_BG_ON)
+	elseif self.state == "Off" then
+		mon.setTextColor(self.color_TXT_OFF)
+		mon.setBackgroundColor(self.color_BG_OFF)
+	elseif self.state == "Dis" then
+		mon.setTextColor(self.color_TXT_DIS)
+		mon.setBackgroundColor(self.color_BG_DIS)
+	end
+	mon.setCursorPos(self.x,self.y)
+	for i=1,self.height do
+		for j=1,self.width do
+			mon.write(" ")
+		end
+		mon.setCursorPos(self.x,self.y + i)
+	end
+	mon.setCursorPos(self.x + ((self.width - string.len(self.name))/ 2),self.y + self.height/2)
+	mon.write(tostring(self.name))
+end

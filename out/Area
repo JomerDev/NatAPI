@@ -1,0 +1,110 @@
+local function findArg(args, sa)
+	for i,v in pairs(args) do
+		if sa == "m=" and tostring(type(v)) == "table" then
+			return v
+		end
+		local x,y = string.find(tostring(v),tostring(sa))
+		if x and y then
+			return string.sub(tostring(v),y+1)
+		end
+	end
+	return nil
+end
+
+New = function(self,...) -- Creates and returns a new instance of "area"
+	local new = {}
+	setmetatable(new, {__index = self})
+	new.string = findArg(arg, "s=") or " "
+	new.x = tonumber(findArg(arg, "x=")) or 1
+	new.y = tonumber(findArg(arg, "y=")) or 1
+	new.width = tonumber(findArg(arg, "w=")) or 20
+	new.height = tonumber(findArg(arg, "h=")) or 20
+	new.color_BG = tonumber(findArg(arg, "cbg=")) or colors.cyan
+	new.color_TXT = tonumber(findArg(arg, "ctx=")) or colors.lightGray
+	new.enabled = findArg(arg, "e=") or true
+	new.mon = findArg(arg, "m=") or term
+	
+	return new
+end
+
+enable = function(self) -- Enables the Area
+	self.enabled = true
+end
+
+disable = function(self) -- Disables the Area
+	self.enabled = false
+end
+
+setColor = function(self,type,color) -- Sets the color, type must be either BG or TXT
+	if	tostring(type) == "BG" then
+		self.color_BG = color
+	elseif tostring(type) == "TXT" then
+		self.color_TXT = color
+	end
+end
+
+getColor = function(self,type) -- Returns the color specified by type
+	if	tostring(type) == "BG" then
+		return self.color_BG
+	elseif tostring(type) == "TXT" then
+		return self.color_TXT
+	else
+		return false
+	end
+end
+
+setX = function(self,x) -- Sets x
+	self.x = tonumber(x)
+end
+
+getX = function(self) -- Returns x
+	return self.x
+end
+
+setY = function(self,y) -- Sets y
+	self.y = tonumber(y)
+end
+
+getY = function(self) -- Returns y
+	return self.y
+end
+
+setPos = function(self,x,y) -- Sets x and y to new position
+	self.x = tonumber(x)
+	self.y = tonumber(y)
+end
+
+getPos = function(self) -- Returns x and y
+	return self.x, self.y
+end
+
+setWidth = function(self,width) -- Sets the width
+	self.width = tonumber(width)
+end
+
+getWidth = function(self) -- Returns the width
+	return self.width
+end
+
+setHeigth = function(self,height) -- Sets the height
+	self.heigth = tonumber(heigth)
+end
+
+getHeigth = function(self) -- Returns the height
+	return self.height
+end
+
+show = function(self, mon) -- Writes the area out
+	if not mon then mon = self.mon else self.mon = mon end
+	if self.enabled then
+		mon.setTextColor(self.color_TXT)
+		mon.setBackgroundColor(self.color_BG)
+	end
+	mon.setCursorPos(self.x,self.y)
+	for i=1,self.height do
+		for j=1,self.width do
+			mon.write(self.string)
+		end
+		mon.setCursorPos(self.x,self.y + i)
+	end
+end

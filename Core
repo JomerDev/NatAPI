@@ -1,0 +1,94 @@
+Index={["Lines"]=95,["Functions"]={[1]={["LineE"]=29,["Name"]="saveTableToFile",["LineA"]=22,},[2]={["LineE"]=47,["Name"]="readFileToTable",["LineA"]=31,},[3]={["LineE"]=20,["Name"]="writeNewFunc",["LineA"]=3,},},}
+-- !Needs function to make new Files with an index!Needs a function to return arguments and errors!Needs a system for logs!Needs a system for Graphical interfaces!@Turtle/Computer/etc. System!Needs system for variables and statics!
+function writeNewFunc(Func, File) -- !Needs a check if the function already exists!Needs to check and error if there is no index!
+	-- This function writes a new function to a file. It needs a Index to work!
+	-- Func has to be a table! File has to be a string!
+	local file = readFileToTable(File)
+	local Lines = Index.Lines
+	table.insert(file, tonumber(Lines)," ")
+	Lines  = Lines + 1
+	local funcStart = tonumber(Lines - 1)
+	for i=1,#Func do
+		table.insert(file, tonumber(Lines + i - 1),tostring(Func[i]))
+	end
+	local funcEnd = Lines + #Func 
+	local funcName = string.sub(tostring(Func[1]),10, string.find(Func[1], "%(")-1)
+	table.insert(Index["Functions"], {Name = tostring(funcName), LineA = tonumber(funcStart), LineE = tonumber(funcEnd)})
+	Index.Lines = funcEnd
+	file[1] = tostring("Index="..textutils.serialize(Index))
+	saveTableToFile(file, File)
+end
+
+function saveTableToFile(Table, File)
+	-- This function saves a Table to a file. The file will be overwritten!
+	local file = fs.open(tostring(File), "w")
+	for i=1,#Table do
+		file.writeLine(tostring(Table[i]))
+	end
+	file.close()
+end
+
+function readFileToTable(File)
+	-- This function reads a file into a table and returns the table
+	local l = 1
+	local file = {}
+	f = fs.open(tostring(File), "r")
+	while true do
+		local Line = f.readLine()
+		if Line then
+			table.insert(file, l, tostring(Line))
+			l = l + 1
+		else
+			break
+		end
+	end
+	f.close()
+	return file
+end
+
+function deleteFunc(Name, File) -- !Needs to check if the function exists!Needs to check for protected functions!
+	--This function will delete the specified function. It takes the start and end of the function from the Index!
+	local num = 0
+	local Lines = 0
+	local file = readFileToTable(File)
+	for i=1,#Index["Functions"] do
+		if tostring(Index["Functions"][i]["Name"]) == tostring(Name) then
+			Lines = Index["Functions"][i]["LineE"] - Index["Functions"][i]["LineA"]
+			for j=Index["Functions"][i]["LineA"], Index["Functions"][i]["LineE"] do
+				table.remove(file, Index["Functions"][i]["LineA"])
+			end
+			table.remove(Index["Functions"], num)
+			num = i
+			break
+		end
+	end
+	Index.Lines = Index.Lines - Lines
+	file[1] = tostring("Index="..textutils.serialize(Index))
+	saveTableToFile(file, File)
+end
+
+function runOrder(Order) -- !Needs a check for Orders with returns!
+	--This function runs the given Orders !Will not work with shell!
+	Error = {pcall(loadstring(Order))}
+	print(textutils.serialize(Error))
+	return {Error}
+end
+
+function modemWatch(side, channel) -- !This function is only temporary! 
+	-- This function listens an the given modem and channel for an Order to happen
+	local modem = peripheral.wrap(side)
+	modem.open(channel)
+	local Event = {os.pullEvent("modem_message")}
+	if string.find(tostring(Event[5]), "Order:", 1) then
+		local Linx, Liny = string.find(tostring(Event[5]), "Order:", 1)
+		local Order = tostring(string.sub(tostring(Event[5]),Liny + 1))
+		modem.close(channel)
+		runOrder(Order)
+	else
+		return Event
+	end
+end
+
+function test() -- !This function is only temporary! 
+	error("Hallo", 2)
+end

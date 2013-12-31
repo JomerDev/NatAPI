@@ -1,0 +1,63 @@
+local function findArg(args, sa)
+	for i,v in pairs(args) do
+		if sa == "f=" and tostring(type(v)) == "function" then
+			return v
+		end
+		if sa == "m=" and tostring(type(v)) == "table" then
+			return v
+		end
+		local x,y = string.find(tostring(v),tostring(sa))
+		if x and y then
+			return string.sub(tostring(v),y+1)
+		end
+	end
+	return nil
+end
+
+-- Needs a table for Buttons inside the window, some of them should get created here
+-- Needs a table for areas and labels inside the window, some of them should get created here
+-- Needs a method 'registerButton()' to add a Button to a window
+-- needs a method to handle events inside the window
+-- needs a method to handle multiple kinds of areas, buttons, labels, tables etc.
+-- needs a method to handle multiple 'sites'
+
+New = function(self,...) -- Creates and returns a new instance of "window"
+	local new = {}
+	setmetatable(new, {__index = self})
+	new.title = findArg(arg, "t=") or "Window"
+	new.title_enabled = findArg(arg, "t_e=") or true
+	new.x = tonumber(findArg(arg, "x=")) or 1
+	new.y = tonumber(findArg(arg, "y=")) or 1
+	new.width = tonumber(findArg(arg, "w=")) or 15
+	new.height = tonumber(findArg(arg, "h=")) or 10
+	-- Defines the color of the window background and enables it
+	new.color_BG = tonumber(findArg(arg, "cbg1=")) or colors.cyan
+	new.BG_enabled = findArg(arg, "cbg1_e=") or true
+	-- Defines the color of the background of the top window bar and enables it
+	new.color_BG_BAR_TOP = tonumber(findArg(arg, "cbg2=")) or colors.lightGray
+	new.BG_BAR_TOP_enabled = findArg(arg, "cbg2_e=") or true
+	-- Defines the color of the background of the bottom window bar and enables it
+	new.color_BG_BAR_BOT = tonumber(findArg(arg, "cbg3=")) or colors.lightGray
+	new.BG_BAR_BOT_enabled = findArg(arg, "cbg3_e=") or true
+	-- Defines the color of the window text and enables it
+	new.color_TXT = tonumber(findArg(arg, "ctx1=")) or colors.black
+	new.TXT_enabled = findArg(arg, "ctx1_e=") or true
+	-- Defines the color of the text of the top window bar and enables it
+	new.color_TXT_BAR_TOP = tonumber(findArg(arg, "ctx2=")) or colors.black
+	new.TXT_BAR_TOP_enabled = findArg(arg, "ctx2_e=") or true
+	-- Defines the color of the text of the bottom window bar and enables it
+	new.color_TXT_BAR_BOT = tonumber(findArg(arg, "ctx3=")) or colors.black
+	new.TXT_BAR_BOT_enabled = findArg(arg, "ctx3_e=") or true
+	-- Defines and enables the "close" Button (The big "X" on a red background)
+	new.button_close_enabled = findArg(arg, "Bc_e=") or true
+	-- Defines and enables the "minimise" Button (To minimise the window without closing it)
+	new.button_min_enabled = findArg(arg, "Bm_e=") or true
+	
+	new.visible = findArg(arg, "v=") or  true
+	
+	new.enabled = findArg(arg, "e=") or true
+	
+	new.mon = findArg(arg, "m=") or term
+	
+	return new
+end
