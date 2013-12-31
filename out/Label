@@ -19,8 +19,8 @@ New = function(self,...) -- Creates and returns a new instance of "button"
 	new.y = tonumber(findArg(arg, "y=")) or 5
 	new.width = tonumber(findArg(arg, "w=")) or string.len(new.name)
 	new.height = tonumber(findArg(arg, "h=")) or 1
-	new.color_BG = tonumber(findArg(arg, "cbg1=")) or colors.green
-	new.color_TXT = tonumber(findArg(arg, "ctx1=")) or colors.black
+	new.color_BG = tonumber(findArg(arg, "cbg=")) or colors.green
+	new.color_TXT = tonumber(findArg(arg, "ctx=")) or colors.black
 	new.enabled = findArg(arg, "e=") or  true
 	new.mon = findArg(arg, "m=") or term
 	
