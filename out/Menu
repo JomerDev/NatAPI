@@ -50,6 +50,9 @@ addPoint = function(self, name, func) -- Adds a Button to the menu
 	elseif self.direction == "right" or self.direction == "left" then 
 		y = self.y 
 	end 
+	if string.len(name) > self.width then
+		name = string.sub(name, 1, self.width)
+	end
 	local names = tostring("Button_"..#self.buttons+1)
 	names = Button:New("n="..tostring(name),"cbg1=256","cbg2=256","cbg3=128","ctx1=32768","ctx2=32768","ctx3=1",self.mon,func,"x="..x,"y="..y,"h=1","w="..self.width)
 	table.insert(self.buttons,names)
