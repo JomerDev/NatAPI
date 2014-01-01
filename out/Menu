@@ -16,7 +16,7 @@ end
 New = function(self,...) -- Creates and returns a new instance of "menu"
 	local new = {}
 	new.buttons = {}	
-	setmetatable(new, {__index = self})
+	--setmetatable(new, {__index = self})
 	new.name = findArg(arg, "n=") or "Menu"
 	new.x = tonumber(findArg(arg, "x=")) or 1
 	new.y = tonumber(findArg(arg, "y=")) or 1
@@ -59,7 +59,7 @@ end
 out = function(self) 
 	if not self.state then
 		for i,v in pairs(self.buttons) do
-			v:show()
+			pcall(v:show(self.mon))
 		end
 	end
 end
