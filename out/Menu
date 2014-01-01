@@ -58,8 +58,8 @@ end
 
 local out = function(self) 
 	if not self.state then
-		for i=1,#self.buttons do
-			--bla
+		for i,v in pairs(self.buttons) do
+			v:show()
 		end
 	end
 end
