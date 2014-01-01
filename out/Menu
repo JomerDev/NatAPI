@@ -55,16 +55,23 @@ addPoint = function(self, name, func) -- Adds a Button to the menu
 		name = string.sub(name, 1, self.width + 1)
 	end
 	local names = tostring("Button_"..#self.buttons+1)
-	names = Button:New("n="..tostring(name),"cbg1=256","cbg2=256","cbg3=128","ctx1=32768","ctx2=32768","ctx3=1",self.mon,func,"x="..x,"y="..y,"h=1","w="..self.width2)
+	names = Button:New("n="..tostring(name),"cbg1=256","cbg2=256","cbg3=128","ctx1=32768","ctx2=32768","ctx3=1",self.mon,func,"x="..x,"y="..y,"h=1","w="..string.len(name))
 	table.insert(self.buttons,names)
 end
 
 out = function(self) 
 	if not self.state then
+		for j=1,#self.buttons do
+			for k==1,self.width2 do
+				self.mon.setCursorPos(self.x+j,self.y+j)
+				self.mon.write(" ")
+			end
+		end
 		for i,v in pairs(self.buttons) do
 			v:show(self.mon)
 		end
 	end
+	self.state = true
 end
 
 wasPressed = function(self,x,y) -- Checks if the menu was pressed
