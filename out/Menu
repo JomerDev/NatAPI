@@ -36,7 +36,7 @@ New = function(self,...) -- Creates and returns a new instance of "menu"
 end
 
 addPoint = function(self, name, func) -- Adds a Button to the menu
-	local x, y
+	local x, y = 0,0
 	if self.direction == "down" or self.direction == "up" then 
 		x = self.x 
 	elseif self.direction == "right" then 
@@ -52,7 +52,7 @@ addPoint = function(self, name, func) -- Adds a Button to the menu
 		y = self.y 
 	end 
 	local names = tostring("Button_"..#self.buttons+1)
-	names = Button:New("n="..name,"cbg1=256","cbg2=256","cbg3=128","ctx1=32768","ctx2=32768","ctx3=1",self.mon,func,"x="..x,"y="..y)
+	names = Button:New("n="..tostring(name),"cbg1=256","cbg2=256","cbg3=128","ctx1=32768","ctx2=32768","ctx3=1",self.mon,func,"x="..x,"y="..y)
 	table.insert(self.buttons,names)
 end
 
@@ -70,4 +70,21 @@ wasPressed = function(self,x,y) -- Checks if the menu was pressed
 	else
 		return false
 	end
+end
+
+show = function(self, mon) -- Writes the Menu out
+	if not mon then mon = self.mon else self.mon = mon end
+	if self.enabled then
+		mon.setTextColor(self.color_TXT_ON)
+		mon.setBackgroundColor(self.color_BG_ON)
+	end
+	mon.setCursorPos(self.x,self.y)
+	for i=1,self.height do
+		for j=1,self.width do
+			mon.write(" ")
+		end
+		mon.setCursorPos(self.x,self.y + i)
+	end
+	mon.setCursorPos(self.x + ((self.width - string.len(self.name))/ 2),self.y + self.height/2)
+	mon.write(tostring(self.name))
 end
