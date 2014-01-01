@@ -52,11 +52,11 @@ addPoint = function(self, name, func) -- Adds a Button to the menu
 		y = self.y 
 	end 
 	local names = tostring("Button_"..#self.buttons+1)
-	names = Button:New("n="..tostring(name),"cbg1=256","cbg2=256","cbg3=128","ctx1=32768","ctx2=32768","ctx3=1",self.mon,func,"x="..x,"y="..y,"h=1",)
+	names = Button:New("n="..tostring(name),"cbg1=256","cbg2=256","cbg3=128","ctx1=32768","ctx2=32768","ctx3=1",self.mon,func,"x="..x,"y="..y,"h=1","w="..self.width)
 	table.insert(self.buttons,names)
 end
 
-local out = function(self) 
+out = function(self) 
 	if not self.state then
 		for i,v in pairs(self.buttons) do
 			v:show()
