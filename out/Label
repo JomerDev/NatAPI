@@ -107,6 +107,11 @@ show = function(self, mon) -- Writes the label out
 		end
 		mon.setCursorPos(self.x,self.y + i)
 	end
-	mon.setCursorPos(self.x + ((self.width - string.len(self.name))/ 2),self.y + self.height/2)
+	if self.width > string.len(self.name) then 
+		w = (self.width - string.len(self.name))/2
+	else
+		w = 0
+	end
+	mon.setCursorPos(self.x + w,self.y + self.height/2)
 	mon.write(tostring(self.name))
 end
