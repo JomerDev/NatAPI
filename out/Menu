@@ -51,9 +51,9 @@ addPoint = function(self, name, func) -- Adds a Button to the menu
 	elseif self.direction == "right" or self.direction == "left" then 
 		y = self.y 
 	end 
-	local names = tostring("Button_"..#self.buttons+1)
-	local names = Button:New("n="..name,"cbg1=256","cbg2=256","cbg3=128","ctx1=32768","ctx2=32768","ctx3=1",self.mon,func,"x="..x,"y="..y)
-	table.insert({names})
+	local name_ = tostring("Button_"..#self.buttons+1)
+	local names = Button:New("n="..name_,"cbg1=256","cbg2=256","cbg3=128","ctx1=32768","ctx2=32768","ctx3=1",self.mon,func,"x="..x,"y="..y)
+	table.insert(self.buttons,names)
 end
 
 local out = function(self) 
