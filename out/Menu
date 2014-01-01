@@ -17,10 +17,11 @@ New = function(self,...) -- Creates and returns a new instance of "menu"
 	local new = {}
 	new.buttons = {}	
 	setmetatable(new, {__index = self})
-	new.name = findArg(arg, "n=") or "Menu"
+	new.name = findArg(arg, "n=") or tostring("Menu")	
 	new.x = tonumber(findArg(arg, "x=")) or 1
 	new.y = tonumber(findArg(arg, "y=")) or 1
-	new.width = tonumber(findArg(arg, "w=")) or string.len(tostring(self.name))
+	new.width = tonumber(findArg(arg, "w=")) or string.len(tostring(new.name))
+	new.width2 = tonumber(findArg(arg, "w2=")) or string.len(tostring(new.name))
 	new.height = tonumber(findArg(arg, "h=")) or 1
 	new.direction = findArg(arg, "d=") or "down"
 	new.color_BG_ON = tonumber(findArg(arg, "cbg1=")) or colors.lightGray
@@ -50,11 +51,11 @@ addPoint = function(self, name, func) -- Adds a Button to the menu
 	elseif self.direction == "right" or self.direction == "left" then 
 		y = self.y 
 	end 
-	if string.len(name) > self.width then
-		name = string.sub(name, 1, self.width)
+	if string.len(name) > self.width2 then
+		name = string.sub(name, 1, self.width + 1)
 	end
 	local names = tostring("Button_"..#self.buttons+1)
-	names = Button:New("n="..tostring(name),"cbg1=256","cbg2=256","cbg3=128","ctx1=32768","ctx2=32768","ctx3=1",self.mon,func,"x="..x,"y="..y,"h=1","w="..self.width)
+	names = Button:New("n="..tostring(name),"cbg1=256","cbg2=256","cbg3=128","ctx1=32768","ctx2=32768","ctx3=1",self.mon,func,"x="..x,"y="..y,"h=1","w="..self.width2)
 	table.insert(self.buttons,names)
 end
 
