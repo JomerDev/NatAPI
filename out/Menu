@@ -1,4 +1,4 @@
-local os.loadAPI("Button")
+os.loadAPI("out/Button")
 
 local function findArg(args, sa)
 	for i,v in pairs(args) do
@@ -15,7 +15,7 @@ end
 
 New = function(self,...) -- Creates and returns a new instance of "menu"
 	local new = {}
-	local new.buttons = {}	
+	new.buttons = {}	
 	setmetatable(new, {__index = self})
 	new.name = findArg(arg, "n=") or "Menu"
 	new.x = tonumber(findArg(arg, "x=")) or 5
@@ -36,7 +36,10 @@ New = function(self,...) -- Creates and returns a new instance of "menu"
 end
 
 addPoint = function(self, name, func)
-	--bla
+	local x = if self.direction == "down" or self.direction == "up" then return self.x elseif self.direction == "right" then return self.x + 1 + (#self.buttons * self.width) elseif self.direction == "left" then return self.x - 1 - (#self.buttons * self.width) end 
+	local y = if self.direction == "down" then return self.y + 1 + #self.buttons elseif self.direction == "up" then return self.y -1 - #self.buttons elseif self.direction == "right" or self.direction == "left" then return self.y end 
+	local tostring("Button_"..#self.buttons+1) = Button:New("n="..name,"cbg1=256","cbg2=256","cbg3=128","ctx1=32768","ctx2=32768","ctx3=1",self.mon,func,"x="..x,"y="..y)
+	table.insert({tostring("Button_"..#self.buttons+1)})
 end
 
 local out = function(self) 
