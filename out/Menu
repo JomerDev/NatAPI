@@ -39,9 +39,9 @@ addPoint = function(self, name, func) -- Adds a Button to the menu
 	local x, y
 	if self.direction == "down" or self.direction == "up" then x = self.x elseif self.direction == "right" then x = self.x + 1 + (#self.buttons * self.width) elseif self.direction == "left" then x = self.x - 1 - (#self.buttons * self.width) end 
 	if self.direction == "down" then y = self.y + 1 + #self.buttons elseif self.direction == "up" then y = self.y -1 - #self.buttons elseif self.direction == "right" or self.direction == "left" then y = self.y end 
-	local names = tostring("Button_"..#self.buttons+1
+	local names = tostring("Button_"..#self.buttons+1)
 	local names = Button:New("n="..name,"cbg1=256","cbg2=256","cbg3=128","ctx1=32768","ctx2=32768","ctx3=1",self.mon,func,"x="..x,"y="..y)
-	table.insert({names)})
+	table.insert({names})
 end
 
 local out = function(self) 
