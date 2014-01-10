@@ -61,10 +61,20 @@ end
 
 out = function(self) 
 	if not self.state then
-		for j=1,#self.buttons do
-			for k==1,self.width2 do
-				self.mon.setCursorPos(self.x+j,self.y+j)
-				self.mon.write(" ")
+		self.mon.setBackgroundColor(tonumber(self.color_BG_DIS))
+		if self.direction == "down" then
+			for j=1,#self.buttons do
+				for k=0,self.width2 do
+					self.mon.setCursorPos(self.x+k,self.y+j)
+					self.mon.write(" ")
+				end
+			end
+		elseif self.direction == "up" then
+			for j=1,#self.buttons do
+				for k=0,self.width2 do
+					self.mon.setCursorPos(self.x+k,self.y-j)
+					self.mon.write(" ")
+				end
 			end
 		end
 		for i,v in pairs(self.buttons) do
