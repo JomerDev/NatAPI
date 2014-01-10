@@ -1,0 +1,6 @@
+
+New = function(self, name) -- Creates a new instance of Log
+	local file = fs.open()
+	
+	return file
+end
