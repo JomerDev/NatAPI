@@ -84,7 +84,7 @@ out = function(self)
 	self.state = true
 end
 
-wasPressed = function(self,x,y) -- Checks if the menu was pressed !Needs Work!
+wasPressed = function(self,x,y) -- Checks if the list was pressed !Needs Work!
 	if x >= self.x and x <= (self.x + self.width ) and y >= self.y and y <= (self.y + self.height) then
 		return true
 	else

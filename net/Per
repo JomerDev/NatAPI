@@ -1,0 +1,11 @@
+
+
+function findPer(name)
+	local names = {}
+	for i,v in pairs(peripheral.getNames()) do
+		if tostring(name) == tostring(v) then
+			table.insert(names, v)
+		end
+	end
+	return names
+end
