@@ -1,5 +1,5 @@
 
-New = function(self)
+New = function(self) -- Creates and returns a new instance of 'EventHandler'
 	local new = {}
 	new.WEvents = {}
 	new.KeyEvents = {}
@@ -9,9 +9,8 @@ New = function(self)
 	new.RedEvents = {}
 end
 
-
-getNextEvent = function(self, _type)
-	if tostring(_type) = "W" then
+getNextEvent = function(self, _type) -- Returns the oldest Event in the specified Category
+	if tostring(_type) = "WLan" then
 		return table.remove(self.WEvents,1)
 	elseif tostring(_type) = "Key" then
 		return table.remove(self.KeyEvents,1)
@@ -26,7 +25,7 @@ getNextEvent = function(self, _type)
 	end
 end
 
-listen = function(self)
+listen = function(self) -- Starts up the EventHandler, has to be started in a coroutine!
 	while true do
 		local event = {os.pullEvent()}
 		if event then
@@ -36,7 +35,7 @@ listen = function(self)
 				table.insert(self.KeyEvents, {event})
 			elseif tostring(event[1]) == "mouse_click" or tostring(event[1]) == "mouse_scroll" or tostring(event[1]) == "mouse_drag" or tostring(event[1]) == "monitor_touch" or tostring(event[1]) == "monitor_resize" then
 				table.insert(self.MonEvents,{event})
-			elseif tostring(event[1]) == "redstone" then
+			elseif tostring(event[1]) == "redstone" or tostring(event[1]) == "prb_input" then
 				table.insert(self.RedEvents,{event})
 			elseif tostring(event[1]) == "peripheral" or tostring(event[1]) == "peripheral_detach" or tostring(event[1]) == "disk" or tostring(event[1]) == "disk_eject" then
 				table.insert(self.PerEvents,{event})

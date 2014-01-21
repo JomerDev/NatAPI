@@ -1,0 +1,10 @@
+- Write an own term API. Something that doesn't error when the computer is not an advanced computer and the program wants to change the Color
+- Next thing to work on should be List. It will help me when I have a working Object where I can call any kind of list. But it needs work
+- Integrate List in Menu. A Menu is only a List with clickable Points.
+- Work on Window. It should be like the JPanel in Java. I need something as a frame for the Buttons, Areas, Labels and such. The Window will have to be that
+- Work on a touch screen Keyboard. I need something where I can get a sentence out of
+- Work on a Input-Label. When clicked it should call the Keyboard. Could be useful for passwords also
+- Start on the Rednet Compatibility. I should start learning more about Networks, I think my coding will profit from that
+- Work on the Compatibility with TE, IC2, BC, Forestry etc. In there should be functions who help with the specified Mod. hasWork() functions should be a good start!
+- Work on the Redstone Compatibility. It should be easier to let Lamps light up than it currently is!
+- 
