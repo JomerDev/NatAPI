@@ -14,17 +14,17 @@ end
 
 getNextEvent = function(self, _type) -- Returns the oldest Event in the specified Category
 	if tostring(_type) == "WLan" then
-		return table.remove(self.WEvents,1)
-	elseif tostring(_type) "= "Key" then
-		return table.remove(self.KeyEvents,1)
-	elseif tostring(_type) "= "Red" then
-		return table.remove(self.RedEvents,1)
-	elseif tostring(_type) "= "Mon" then
-		return table.remove(self.MonEvents,1)
-	elseif tostring(_type) "= "Per" then
-		return table.remove(self.PerEvents,1)
+		return table.remove(self.WEvents,1) or nil
+	elseif tostring(_type) == "Key" then
+		return table.remove(self.KeyEvents,1) or nil
+	elseif tostring(_type) == "Red" then
+		return table.remove(self.RedEvents,1) or nil
+	elseif tostring(_type) == "Mon" then
+		return table.remove(self.MonEvents,1) or nil
+	elseif tostring(_type) == "Per" then
+		return table.remove(self.PerEvents,1) or nil
 	elseif tostring(_type) == "Misc" then
-		return table.remove(self.MiscEvents,1)
+		return table.remove(self.MiscEvents,1) or nil
 	end
 end
 
