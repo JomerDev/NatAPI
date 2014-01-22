@@ -1,5 +1,5 @@
 
-New = function(self) -- Creates and returns a new instance of 'EventHandler'
+New = function(self) -- Creates and returns a new instance of 'Eventself'
 	local new = {}
 	setmetatable(new, {__index = self})
 	new.WEvents = {}
@@ -56,12 +56,12 @@ printOut = function(self, timer, line)
 			term.clearLine(i)
 		end
 		print("Events")
-		print("WEvents: "..tostring(textutils.serialize(Handler:getNextEvent("WLan"))))
-		print("KeyEvents: "..tostring(textutils.serialize(Handler:getNextEvent("Key"))))
-		print("MonEvents: "..tostring(textutils.serialize(Handler:getNextEvent("Mon"))))
-		print("PerEvents: "..tostring(textutils.serialize(Handler:getNextEvent("Per"))))
-		print("RedEvents: "..tostring(textutils.serialize(Handler:getNextEvent("Red"))))
-		print("MiscEvents: "..tostring(textutils.serialize(Handler:getNextEvent("Misc"))))
+		print("WEvents: "..tostring(textutils.serialize(self:getNextEvent("WLan"))))
+		print("KeyEvents: "..tostring(textutils.serialize(self:getNextEvent("Key"))))
+		print("MonEvents: "..tostring(textutils.serialize(self:getNextEvent("Mon"))))
+		print("PerEvents: "..tostring(textutils.serialize(self:getNextEvent("Per"))))
+		print("RedEvents: "..tostring(textutils.serialize(self:getNextEvent("Red"))))
+		print("MiscEvents: "..tostring(textutils.serialize(self:getNextEvent("Misc"))))
 		sleep(timer)
 	end
 end
