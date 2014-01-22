@@ -28,8 +28,9 @@ getNextEvent = function(self, _type) -- Returns the oldest Event in the specifie
 	end
 end
 
-list = function(self, event) -- Starts up the EventHandler, it sorts and lists every Event
+listen = function(self) -- Starts up the EventHandler, has to be started in a coroutine!
 	while true do
+		local event = {os.pullEvent()}
 		if event then
 			if tostring(event[1]) == "modem_message" or tostring(event[1]) == "rednet_Message" then
 				table.insert(self.WEvents, {event})
