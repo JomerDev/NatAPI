@@ -14,17 +14,17 @@ end
 
 getNextEvent = function(self, _type) -- Returns the oldest Event in the specified Category
 	if tostring(_type) == "WLan" then
-		return table.remove(self.WEvents,1) or nil
+		return table.remove(self.WEvents,1)
 	elseif tostring(_type) == "Key" then
-		return table.remove(self.KeyEvents,1) or nil
+		return table.remove(self.KeyEvents,1)
 	elseif tostring(_type) == "Red" then
-		return table.remove(self.RedEvents,1) or nil
+		return table.remove(self.RedEvents,1)
 	elseif tostring(_type) == "Mon" then
-		return table.remove(self.MonEvents,1) or nil
+		return table.remove(self.MonEvents,1)
 	elseif tostring(_type) == "Per" then
-		return table.remove(self.PerEvents,1) or nil
+		return table.remove(self.PerEvents,1)
 	elseif tostring(_type) == "Misc" then
-		return table.remove(self.MiscEvents,1) or nil
+		return table.remove(self.MiscEvents,1)
 	end
 end
 
@@ -49,3 +49,19 @@ listen = function(self) -- Starts up the EventHandler, has to be started in a co
 	end
 end
 
+printOut = function(self, timer, line)
+	while true do
+		term.setCursorPos(1,line)
+		for i=line,line+7 do
+			term.clearLine(i)
+		end
+		print("Events")
+		print("WEvents: "..tostring(textutils.serialize(Handler:getNextEvent("WLan"))))
+		print("KeyEvents: "..tostring(textutils.serialize(Handler:getNextEvent("Key"))))
+		print("MonEvents: "..tostring(textutils.serialize(Handler:getNextEvent("Mon"))))
+		print("PerEvents: "..tostring(textutils.serialize(Handler:getNextEvent("Per"))))
+		print("RedEvents: "..tostring(textutils.serialize(Handler:getNextEvent("Red"))))
+		print("MiscEvents: "..tostring(textutils.serialize(Handler:getNextEvent("Misc"))))
+		sleep(timer)
+	end
+end
