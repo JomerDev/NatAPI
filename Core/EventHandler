@@ -8,6 +8,14 @@ New = function(self) -- Creates and returns a new instance of 'Eventself'
 	new.PerEvents = {}
 	new.MiscEvents = {}
 	new.RedEvents = {}
+	-- Using Tables and Subtables to save methods. When a event is called which there is a method for, it should call this method. There could be many Methods for one Event!
+	new.Methods = {}
+	new.Methods.WEvents = {}
+	new.Methods.KeyEvents = {}
+	new.Methods.MonEvents = {}
+	new.Methods.PerEvents = {}
+	new.Methods.RedEvents = {}
+	new.Methods.MiscEvents = {}
 	
 	return new
 end
@@ -53,8 +61,10 @@ printOut = function(self, timer, line)
 	while true do
 		term.setCursorPos(1,line)
 		for i=line,line+7 do
-			term.clearLine(i)
+			term.setCursorPos(1,i)
+			term.clearLine()
 		end
+		term.setCursorPos(1,line)
 		print("Events")
 		print("WEvents: "..tostring(textutils.serialize(self:getNextEvent("WLan"))))
 		print("KeyEvents: "..tostring(textutils.serialize(self:getNextEvent("Key"))))
@@ -64,4 +74,9 @@ printOut = function(self, timer, line)
 		print("MiscEvents: "..tostring(textutils.serialize(self:getNextEvent("Misc"))))
 		sleep(timer)
 	end
+end
+
+addEventMethod = function(self, method, event, stay)
+	if not stay then stay = true end
+	-- Needs a way to save Methods in the tables (new.Methods.[whatever])
 end
